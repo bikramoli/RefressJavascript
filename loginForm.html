@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>LoginForm</title>
+    <style>
+        #app {
+            text-align: center;
+        }
+
+        #heading {
+            font-size: 90px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel"> // type ="text/babel" is used because babel is to compile jsx because jsx is used here inside script tag not js
+        function App() {
+            const [state, setState] = React.useState({
+                username: "",
+                password: "",
+                message: "",
+                tm: 6,
+                count: 0,
+            });
+
+
+            function updateUsername(event) {
+                setState({
+                    ...state,
+                    username: event.target.value,
+                });
+            }
+            function updatePassword(event) {
+                setState({
+                    ...state,
+                    password: event.target.value,
+                });
+            }
+            function checkLogin() {
+                if (state.username === "bikram" && state.password === "bik") {
+                    setState({
+                        ...state,
+                        message: "Login Successfull",
+                        username: "",
+                        password: ""
+                    });
+
+                }
+                else if (state.count === 5) {
+                    document.querySelector('button').disabled = true;
+
+                    setState({
+
+                        message: `Try again after ${state.tm} minutes`,
+                    })
+                }
+                else {
+                    setState({
+                        ...state,
+                        message: "Invalid credentials",
+                        count: state.count + 1,
+                        username: "",
+                        password: ""
+                    })
+                    console.log("Incorrect credentials")
+                }
+                if (state.tm <= 5) {
+                    document.querySelector('button').disabled = false
+                }
+
+            }
+            if (state.message === "Login Successfull") {
+                return (
+                    <div>
+                        Welcome to Dashboard
+                    </div>
+                )
+            }
+
+            return (
+                <div>
+                    <h1 id="heading">Login Form</h1>
+                    <div id="inputUsername"><input autofocus='true' onChange={updateUsername} placeholder="Username" value={state.username} /></div>
+                    <div><input autofocus='true' onChange={updatePassword} placeholder="Password" value={state.password} /></div>
+                    <div><button onClick={checkLogin}>Login</button></div>
+                    <h1>{state.message}</h1>
+                    <h2>{state.tm}</h2>
+
+
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.querySelector('#app'));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Counter</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        function App() {
+            /* const [num1, numFun] = React.useState(1); // for every new value we have to define new state so new way is to create object
+            const [num2, num2Fun] = React.useState(2);
+            function calculate() {
+                numFun(9)
+                num2Fun(8)
+            } */
+            const scr = localStorage.getItem('sc') //get score from local storage and assign value to scr variable
+
+            const [state, setState] = React.useState({
+                num1: 4,
+                num2: 2,
+                response: "",
+                score: 0,
+                // setStorage: localStorage.setItem('score', scr)
+
+            });
+            function checkAnswer(event) {
+                if (event.key === "Enter") {  // 
+                    const answer = parseInt(state.response);
+                    if (state.num1 + state.num2 === answer) {
+                        localStorage.setItem('sc', state.score), //set score in local stroage
+                            setState({
+                                ...state,
+                                score: state.score + 1,
+                                num1: Math.ceil(Math.random() * 10), // generating random number, math.random() generate num btwn 0 to 1 so multiply 
+                                num2: Math.ceil(Math.random() * 8), //it with 10 can give num btwn 1 to 10, and math.ceil convert decimal to int
+                                response: ""   //making input box empty after clicking Enter button
+                            });
+                    } else {
+                        setState({
+                            ...state,
+                            score: state.score - 1,
+                        });
+                    }
+                }
+            }
+            function updateResponse(event) {
+                setState({
+                    ...state, // this is spread operator in js and this means let remain other same by using existing values i.e. num1=4 and num2 = 2
+                    response: event.target.value  // and only change this by gettig value from input field
+                });
+            }
+            return (
+                <div>
+                    <div>{state.num1} + {state.num2}</div>
+                    <input autoFocus={true} onKeyPress={checkAnswer} onChange={updateResponse} value={state.response} />
+                    <div>Your total score is {state.score}</div>
+                    <div>Highest Score Acheived: {scr}</div>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.querySelector('#app'));
+    </script>
+
+</body>
+
+</html>

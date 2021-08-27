@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Hello React!!!</title>
+
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+
+        function Bik() {
+            return (
+                <h1>this is it</h1>
+            )
+        }
+        function App() {
+            if (!localStorage.getItem('num')) {
+                localStorage.setItem('num', 5);
+            }
+            const num = localStorage.getItem('num');
+            const [count, setCount] = React.useState(num);
+            function updateCount() {
+                setCount(count * 2);
+                localStorage.setItem('num', count);
+
+            }
+            return (
+                <div>
+                    <Bik />
+                    <div>{count}</div>
+                    <button onClick={updateCount}>Count</button>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.querySelector('#app'));
+    </script>
+
+</body>
+
+
+</html>

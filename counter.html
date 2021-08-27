@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Local storage</title>
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const itm = localStorage.getItem('items');
+            var lis = document.createElement('li');
+            lis.innerHTML = itm
+            document.querySelector('#list').append(lis)
+
+            document.querySelector('button').disabled = true;
+            document.querySelector('#name').onkeyup = () => {
+                document.querySelector('button').disabled = false;
+            }
+            document.querySelector('button').onclick = function () {
+                const name = document.querySelector('#name').value;
+                const list = document.createElement('li');
+                list.innerHTML = name;
+                localStorage.setItem('items', name);
+                document.querySelector('#list').append(list)
+                document.querySelector('#name').value = '';
+
+
+                return false;
+
+
+            }
+        })
+
+    </script>
+</head>
+
+<body>
+    <h1>ask me</h1>
+    <form>
+        <h2>What is your name?</h2>
+        <input autofocus type="text" id="name" placeholder="Enter name here..">
+        <button>submit</button>
+    </form>
+    <ul id="list">
+
+
+
+    </ul>
+
+</body>
+
+</html>
